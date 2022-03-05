@@ -43,6 +43,14 @@ class _QuizPageState extends State<QuizPage> {
       body: currentPage == 0
           ? Container(
               width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.04), BlendMode.dstATop),
+                  image: AssetImage("images/journey.png"),
+                ),
+              ),
               child: (Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -92,6 +100,9 @@ class _QuizPageState extends State<QuizPage> {
                               });
                             },
                             title: Text(boolToShow[index]! ? "Yes" : "No"),
+                            tileColor: boolToShow[index] == boolCheckList[index]
+                                ? Colors.green
+                                : Colors.red,
                           );
                         },
                       ),
@@ -112,14 +123,19 @@ class _QuizPageState extends State<QuizPage> {
                   )),
                 )
               : Container(
-                  child: Center(
-                    child: Text(
-                      'Score $score',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red),
-                    ),
+                  child: Column(
+                    children: [
+                      Image.asset('images/commute.png'),
+                      Center(
+                        child: Text(
+                          'Score $score',
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
     );
