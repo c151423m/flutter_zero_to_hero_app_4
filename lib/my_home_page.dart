@@ -23,7 +23,6 @@ class _MyHomePageState extends State<MyHomePage> {
             Image.asset("images/egg.png"),
             ElevatedButton(
               onPressed: () {
-                print('hi');
                 Navigator.push(
                   context,
                   MaterialPageRoute(

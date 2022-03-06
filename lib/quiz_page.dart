@@ -28,8 +28,9 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   // if 0, show the first question page. if not , go to next question
   int currentPage = 0;
-
+//boolToShow == list of boolean (true , false etc etc )
   List<bool?> boolToShow = List.generate(8, (index) => Random().nextBool());
+//boolCheckList == list of falses
   List<bool?> boolCheckList = List.generate(8, (index) => false);
 
   @override
@@ -41,37 +42,43 @@ class _QuizPageState extends State<QuizPage> {
         title: Text('Quiz Page'),
       ),
       body: currentPage == 0
+          // if tyhe current page is 0, show below container
           ? Container(
-              width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.04), BlendMode.dstATop),
+                  fit: BoxFit.cover,
+                  colorFilter: new ColorFilter.mode(
+                      Colors.white.withOpacity(0.2), BlendMode.dstATop),
                   image: AssetImage("images/journey.png"),
                 ),
               ),
-              child: (Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Select the red Square",
-                    style: TextStyle(
-                      fontSize: 25,
+              child: Container(
+                child: (Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Select the red Square",
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  ...List.generate(
-                    tileInfoList.length,
-                    (index) => _customListTile(
-                        title: tileInfoList[index].title,
-                        color: tileInfoList[index].color),
-                  ),
-                  Spacer(),
-                ],
-              )),
+                    Spacer(),
+                    ...List.generate(
+                      tileInfoList.length,
+                      (index) => Container(
+                        color: tileInfoList[index].color,
+                        child: _customListTile(
+                            title: tileInfoList[index].title,
+                            color: tileInfoList[index].color),
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                )),
+              ),
             )
           : currentPage == 1
+              // if current page == 1 show this container
               ? Container(
                   width: double.infinity,
                   child: (Column(
@@ -85,6 +92,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                       Spacer(),
                       ...List.generate(
+                        // geenrate a list based on the len of boolCheckList
                         boolCheckList.length,
                         (index) {
                           for (int i = 0; i < boolCheckList.length; i++) {
@@ -124,6 +132,7 @@ class _QuizPageState extends State<QuizPage> {
                 )
               : Container(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('images/commute.png'),
                       Center(
@@ -141,21 +150,22 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
+// widget for LisTile. takes title and color
   Widget _customListTile({required String title, required Color color}) =>
       ListTile(
         title: Text(title),
         tileColor: color,
         onTap: () {
           if (color == Colors.red) {
-            print('Yes, this is Red');
+            // print('Yes, this is Red');
             score = 1;
-            print(score);
           } else {
-            print('OMG THIS IS NOT RED YOU TWAT');
+            // print('OMG THIS IS NOT RED');
             score = 0;
           }
           setState(() {
-            // setState meands to reset the build
+            // setState means to reset the build
+            // once tapped, it goes to next page by adding 1 to currentPage
             currentPage += 1;
           });
         },
